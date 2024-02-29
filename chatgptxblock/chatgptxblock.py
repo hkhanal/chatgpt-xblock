@@ -5,6 +5,10 @@ from xblock.fields import String, Scope
 from xblock.fragment import Fragment
 from xblockutils.studio_editable import StudioEditableXBlockMixin
 from openai import OpenAI
+from django.conf import settings
+
+openai_key = settings.OPENAI_API_KEY
+openai_model = settings.OPENAI_MODEL
 
 class ChatgptXBlock(StudioEditableXBlockMixin, XBlock):
     # Define the fields of the XBlock
@@ -27,17 +31,16 @@ class ChatgptXBlock(StudioEditableXBlockMixin, XBlock):
     )
 
     api_key = String(
-        default="your-openai-api-key-here",
+        default=openai_key,
         scope=Scope.settings,
         help="Your OpenAI API key",
     )
     model_name = String(
         display_name="Model name",
-        default="gpt-3.5-turbo-0613",
+        default=openai_model,
         scope=Scope.settings,
         help="Select a ChatGPT model."
     )
-
     context_text = String(
         default="Your context here",
         scope=Scope.settings,
